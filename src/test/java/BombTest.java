@@ -2,6 +2,7 @@ import model.*;
 import org.junit.Test;
 
 import static java.util.Arrays.asList;
+import static model.EstimateType.Prison;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -33,5 +34,29 @@ public class BombTest {
         assertThat(gameController.getCurrentPlayer(), is(player2));
         gameController.roll();
         assertThat(gameController.getCurrentPlayer(), is(player1));
+    }
+
+    @Test
+    public void should_be_skipped_for_2_times_when_arrive_prison() throws Exception {
+        Dice dice = mock(Dice.class);
+        when(dice.roll()).thenReturn(1);
+
+        Player player1 = new Player();
+        Player player2 = new Player();
+        RealEstimate prison = new RealEstimate(Prison);
+        GameController gameController = new GameController(
+                asList(player1, player2),
+                asList(new RealEstimate(), prison, new RealEstimate(), new RealEstimate()),
+                dice
+        );
+        gameController.roll();
+        assertThat(player1.getPosition(), is(1));
+        gameController.roll();
+        assertThat(gameController.getCurrentPlayer(), is(player2));
+        gameController.roll();
+        assertThat(gameController.getCurrentPlayer(), is(player2));
+        gameController.roll();
+        assertThat(gameController.getCurrentPlayer(), is(player1));
+
     }
 }

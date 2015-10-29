@@ -1,5 +1,5 @@
 package model;
 
 public enum EstimateType {
-    L2, L3, L4, VaccantLand, Hospital
+    L2, L3, L4, VaccantLand, Prison, Hospital
 }

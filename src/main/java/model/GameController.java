@@ -16,10 +16,6 @@ public class GameController {
     }
 
     public void roll() {
-//        if (getCurrentPlayer().needToSkip()) {
-//            getCurrentPlayer().skip();
-//            cursorForCurrentPlayer = (cursorForCurrentPlayer + 1) % players.size();
-//        }
         int roll = dice.roll();
         int newPos = (getCurrentPlayer().getPosition() + roll) % realEstimates.size();
         for (int i = 1; i <= roll; i++) {
@@ -29,16 +25,7 @@ public class GameController {
                 newPos = equipment.act(getCurrentPlayer(), realEstimates, i1);
                 break;
             }
-//            if (equipment != null
-//                    && equipment.getType().equals(BLOCK)) {
-//                newPos = i1;
-//                break;
-//            }
-//            if (equipment != null
-//                    && equipment.getType().equals(BOMB)) {
-//                newPos = equipment.act(getCurrentPlayer(), realEstimates.get(i1))
-//                break;
-//            }
+
         }
         Player owner = realEstimates.get(newPos).getOwner();
         if (owner != null && !owner.equals(getCurrentPlayer())) {
@@ -52,6 +39,10 @@ public class GameController {
             }
         }
         getCurrentPlayer().moveTo(newPos);
+        EstimateType type = realEstimates.get(newPos).getType();
+        if (type!=null&&type.equals(EstimateType.Prison)){
+            getCurrentPlayer().skipForTimes(2);
+        }
         cursorForCurrentPlayer = (cursorForCurrentPlayer + 1) % players.size();
 
         if (getCurrentPlayer().needToSkip()) {
