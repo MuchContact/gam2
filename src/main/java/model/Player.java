@@ -5,10 +5,12 @@ import static model.EstimateType.*;
 public class Player {
     private int position;
     private int money;
+    private boolean alive;
 
     public Player(int money) {
 
         this.money = money;
+        alive = true;
     }
 
     public Player() {
@@ -18,6 +20,7 @@ public class Player {
     public Player(int money, int position) {
         this.money = money;
         this.position = position;
+        alive = true;
     }
 
     public int getPosition() {
@@ -63,5 +66,13 @@ public class Player {
 
     public boolean isBroken() {
         return money < 0;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void markToDie() {
+        alive=false;
     }
 }

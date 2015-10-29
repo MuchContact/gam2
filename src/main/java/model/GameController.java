@@ -8,6 +8,7 @@ public class GameController {
     private final List<Player> players;
     private final List<RealEstimate> realEstimates;
     private final Dice dice;
+    private int cursorForCurrentPlayer;
 
     public GameController(List<Player> players, List<RealEstimate> realEstimates, Dice dice) {
 
@@ -30,12 +31,20 @@ public class GameController {
         Player owner = realEstimates.get(newPos).getOwner();
         if (owner != null && !owner.equals(getCurrentPlayer())) {
             getCurrentPlayer().payForRent(owner, realEstimates.get(newPos));
+            if (getCurrentPlayer().isBroken()) {
+                getCurrentPlayer().markToDie();
+                realEstimates.stream()
+                        .filter(realEstimate1 -> realEstimate1.getOwner() != null
+                                && realEstimate1.getOwner().equals(getCurrentPlayer()))
+                        .forEach(RealEstimate::reset);
+            }
         }
         getCurrentPlayer().moveTo(newPos);
+        cursorForCurrentPlayer = (cursorForCurrentPlayer + 1) % players.size();
     }
 
     public Player getCurrentPlayer() {
-        return players.get(0);
+        return players.get(cursorForCurrentPlayer);
     }
 
     public void buy() {
@@ -44,6 +53,7 @@ public class GameController {
             getCurrentPlayer().buy(realEstimate);
         }
         if (getCurrentPlayer().isBroken()) {
+            getCurrentPlayer().markToDie();
             realEstimates.stream()
                     .filter(realEstimate1 -> realEstimate1.getOwner() != null
                             && realEstimate1.getOwner().equals(getCurrentPlayer()))
@@ -56,5 +66,16 @@ public class GameController {
         if (realEstimate.getOwner().equals(getCurrentPlayer())) {
             getCurrentPlayer().upgrade(realEstimate);
         }
+    }
+
+    public boolean isGameOver() {
+        return players.stream().filter(Player::isAlive).count() < 2;
+    }
+
+    public Player getWinner() {
+        if (isGameOver()) {
+            return players.stream().filter(Player::isAlive).findFirst().get();
+        }
+        return null;
     }
 }
