@@ -2,6 +2,7 @@ package model;
 
 import java.util.List;
 
+import static model.Equipment.EquipmentType.*;
 import static model.EstimateType.*;
 
 public class GameController {
@@ -42,7 +43,7 @@ public class GameController {
         }
         getCurrentPlayer().moveTo(newPos);
         EstimateType type = realEstimates.get(newPos).getType();
-        if (type!=null&&type.equals(Prison)){
+        if (type != null && type.equals(Prison)) {
             getCurrentPlayer().skipForTimes(2);
         }
         cursorForCurrentPlayer = (cursorForCurrentPlayer + 1) % players.size();
@@ -90,12 +91,12 @@ public class GameController {
     }
 
     public void choose(int giftOrEquipmentIndex) {
-        if (getCurrentPlayer().notChoosable())
-            return ;
         int position = getCurrentPlayer().getPosition();
         EstimateType type = realEstimates.get(position).getType();
-        if(type!=null&&type.equals(GiftRoom)){
-            switch (giftOrEquipmentIndex){
+        if (type != null && type.equals(GiftRoom)) {
+            if (getCurrentPlayer().notChoosable())
+                return;
+            switch (giftOrEquipmentIndex) {
                 case 1:
                     getCurrentPlayer().own(2000);
                     break;
@@ -106,7 +107,20 @@ public class GameController {
                     getCurrentPlayer().gainGodProtection();
                     break;
             }
+            getCurrentPlayer().notChoosable(true);
         }
-        getCurrentPlayer().notChoosable(true);
+        if (type != null && type.equals(EquipmentRoom)) {
+            switch (giftOrEquipmentIndex) {
+                case 1:
+                    getCurrentPlayer().gain(new Equipment(50, BLOCK));
+                    break;
+                case 2:
+                    getCurrentPlayer().gain(new Equipment(30, ROBOT));
+                    break;
+                case 3:
+                    getCurrentPlayer().gain(new Equipment(50, BOMB));
+                    break;
+            }
+        }
     }
 }

@@ -4,9 +4,15 @@ import java.util.List;
 
 public class Equipment {
     private final EquipmentType type;
+    private final int points;
 
-    public Equipment(EquipmentType block) {
-        type = block;
+    public Equipment(EquipmentType type) {
+        this(0, type);
+    }
+
+    public Equipment(int pointsValue, EquipmentType type) {
+        this.points = pointsValue;
+        this.type = type;
     }
 
     public EquipmentType getType() {
@@ -32,7 +38,11 @@ public class Equipment {
         return target;
     }
 
+    public int getPoint() {
+        return points;
+    }
+
     public enum EquipmentType{
-        BOMB, BLOCK
+        BOMB, ROBOT, BLOCK
     }
 }

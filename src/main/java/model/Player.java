@@ -1,5 +1,9 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.stream.Collectors.toCollection;
 import static model.EstimateType.*;
 
 public class Player {
@@ -10,11 +14,13 @@ public class Player {
     private boolean notchoosable;
     private int points;
     private boolean hasGod;
+    private List<Equipment> equipments;
 
     public Player(int money) {
 
         this.money = money;
         alive = true;
+        equipments = new ArrayList<>();
     }
 
     public Player() {
@@ -25,6 +31,12 @@ public class Player {
         this.money = money;
         this.position = position;
         alive = true;
+        equipments = new ArrayList<>();
+    }
+
+    public Player(int money, int position, int points) {
+        this(money, position);
+        this.points = points;
     }
 
     public int getPosition() {
@@ -119,5 +131,17 @@ public class Player {
 
     public void gainGodProtection() {
         hasGod = true;
+    }
+
+    public List<Equipment> getEquipments(Equipment.EquipmentType type) {
+        return equipments
+                .stream()
+                .filter(equipment -> equipment.getType().equals(type))
+                .collect(toCollection(ArrayList::new));
+    }
+
+    public void gain(Equipment equipment) {
+        equipments.add(equipment);
+        points -= equipment.getPoint();
     }
 }
