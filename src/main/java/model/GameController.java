@@ -21,15 +21,24 @@ public class GameController {
         int newPos = (getCurrentPlayer().getPosition() + roll) % realEstimates.size();
         for (int i = 1; i <= roll; i++) {
             int i1 = (getCurrentPlayer().getPosition() + i) % realEstimates.size();
-            if(realEstimates.get(i1).getEquipment().getType().equals(BLOCK)){
+            if(realEstimates.get(i1).getEquipment()!=null
+                    &&realEstimates.get(i1).getEquipment().getType().equals(BLOCK)){
                 newPos = i1;
                 break;
             }
         }
+
         getCurrentPlayer().moveTo(newPos);
     }
 
     public Player getCurrentPlayer() {
         return players.get(0);
+    }
+
+    public void buy() {
+        RealEstimate realEstimate = realEstimates.get(getCurrentPlayer().getPosition());
+        if(realEstimate.getType().equals(EstimateType.VaccantLand)&&realEstimate.getOwner()==null){
+            getCurrentPlayer().buy(realEstimate);
+        }
     }
 }
