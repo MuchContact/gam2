@@ -26,4 +26,39 @@ public class ChooseGiftTest {
         assertThat(player1.getMoney(), is(2300));
 
     }
+
+    @Test
+    public void should_choose_gift_2_in_gift_room() throws Exception {
+        Dice dice = mock(Dice.class);
+        when(dice.roll()).thenReturn(1);
+
+        Player player1 = new Player(300, 1);
+        RealEstimate giftRoom = new RealEstimate(EstimateType.GiftRoom);
+        GameController gameController = new GameController(
+                asList(player1, new Player()),
+                asList(new RealEstimate(), giftRoom, new RealEstimate()),
+                dice
+        );
+        gameController.choose(2);
+        assertThat(player1.getPoints(), is(200));
+        gameController.choose(2);
+        assertThat(player1.getPoints(), is(200));
+
+    }
+
+    @Test
+    public void should_choose_gift_3_in_gift_room() throws Exception {
+        Dice dice = mock(Dice.class);
+        when(dice.roll()).thenReturn(1);
+
+        Player player1 = new Player(300, 1);
+        RealEstimate giftRoom = new RealEstimate(EstimateType.GiftRoom);
+        GameController gameController = new GameController(
+                asList(player1, new Player()),
+                asList(new RealEstimate(), giftRoom, new RealEstimate()),
+                dice
+        );
+        gameController.choose(3);
+        assertThat(player1.hasGodProtection(), is(true));
+    }
 }

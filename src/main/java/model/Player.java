@@ -8,6 +8,8 @@ public class Player {
     private boolean alive;
     private int skipTimes;
     private boolean notchoosable;
+    private int points;
+    private boolean hasGod;
 
     public Player(int money) {
 
@@ -101,5 +103,21 @@ public class Player {
 
     public boolean notChoosable() {
         return notchoosable;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void gainPoints(int points) {
+        this.points += points;
+    }
+
+    public boolean hasGodProtection() {
+        return hasGod;
+    }
+
+    public void gainGodProtection() {
+        hasGod = true;
     }
 }

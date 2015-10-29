@@ -99,6 +99,12 @@ public class GameController {
                 case 1:
                     getCurrentPlayer().own(2000);
                     break;
+                case 2:
+                    getCurrentPlayer().gainPoints(200);
+                    break;
+                case 3:
+                    getCurrentPlayer().gainGodProtection();
+                    break;
             }
         }
         getCurrentPlayer().notChoosable(true);
