@@ -2,6 +2,8 @@ package model;
 
 import java.util.List;
 
+import static model.EstimateType.*;
+
 public class GameController {
     private final List<Player> players;
     private final List<RealEstimate> realEstimates;
@@ -40,7 +42,7 @@ public class GameController {
         }
         getCurrentPlayer().moveTo(newPos);
         EstimateType type = realEstimates.get(newPos).getType();
-        if (type!=null&&type.equals(EstimateType.Prison)){
+        if (type!=null&&type.equals(Prison)){
             getCurrentPlayer().skipForTimes(2);
         }
         cursorForCurrentPlayer = (cursorForCurrentPlayer + 1) % players.size();
@@ -57,7 +59,7 @@ public class GameController {
 
     public void buy() {
         RealEstimate realEstimate = realEstimates.get(getCurrentPlayer().getPosition());
-        if (realEstimate.getType().equals(EstimateType.VaccantLand) && realEstimate.getOwner() == null) {
+        if (realEstimate.getType().equals(VaccantLand) && realEstimate.getOwner() == null) {
             getCurrentPlayer().buy(realEstimate);
         }
         if (getCurrentPlayer().isBroken()) {
@@ -85,5 +87,20 @@ public class GameController {
             return players.stream().filter(Player::isAlive).findFirst().get();
         }
         return null;
+    }
+
+    public void choose(int giftOrEquipmentIndex) {
+        if (getCurrentPlayer().notChoosable())
+            return ;
+        int position = getCurrentPlayer().getPosition();
+        EstimateType type = realEstimates.get(position).getType();
+        if(type!=null&&type.equals(GiftRoom)){
+            switch (giftOrEquipmentIndex){
+                case 1:
+                    getCurrentPlayer().own(2000);
+                    break;
+            }
+        }
+        getCurrentPlayer().notChoosable(true);
     }
 }

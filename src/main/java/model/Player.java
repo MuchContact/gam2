@@ -7,6 +7,7 @@ public class Player {
     private int money;
     private boolean alive;
     private int skipTimes;
+    private boolean notchoosable;
 
     public Player(int money) {
 
@@ -30,6 +31,7 @@ public class Player {
 
     public void moveTo(int newPos) {
         position = newPos;
+        notchoosable = false;
     }
 
     public int getMoney() {
@@ -87,5 +89,17 @@ public class Player {
 
     public void skip() {
         skipTimes--;
+    }
+
+    public void own(int money) {
+        this.money += money;
+    }
+
+    public void notChoosable(boolean notChoosable) {
+        this.notchoosable = notChoosable;
+    }
+
+    public boolean notChoosable() {
+        return notchoosable;
     }
 }
