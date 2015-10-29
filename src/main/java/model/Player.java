@@ -6,6 +6,7 @@ public class Player {
     private int position;
     private int money;
     private boolean alive;
+    private int skipTimes;
 
     public Player(int money) {
 
@@ -73,6 +74,18 @@ public class Player {
     }
 
     public void markToDie() {
-        alive=false;
+        alive = false;
+    }
+
+    public void skipForTimes(int times) {
+        skipTimes = times;
+    }
+
+    public boolean needToSkip() {
+        return skipTimes > 0;
+    }
+
+    public void skip() {
+        skipTimes--;
     }
 }

@@ -1,5 +1,7 @@
 package model;
 
+import static model.Equipment.EquipmentType.BOMB;
+
 public class RealEstimate {
     private Equipment equipment;
     private int basePrice;
@@ -26,6 +28,11 @@ public class RealEstimate {
         this(basePrice, owner);
         this.type = type;
         this.totalPrice = totalPrice;
+    }
+
+    public RealEstimate(EstimateType type) {
+        this();
+        this.type=type;
     }
 
     public void putBlock() {
@@ -65,5 +72,13 @@ public class RealEstimate {
         totalPrice = basePrice;
         type = EstimateType.VaccantLand;
         owner = null;
+    }
+
+    public void putBomb() {
+        equipment = new Equipment(BOMB);
+    }
+
+    public void consumeEquipment() {
+        equipment = null;
     }
 }

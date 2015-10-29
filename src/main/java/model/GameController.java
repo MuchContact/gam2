@@ -2,8 +2,6 @@ package model;
 
 import java.util.List;
 
-import static model.Equipment.EquipmentType.BLOCK;
-
 public class GameController {
     private final List<Player> players;
     private final List<RealEstimate> realEstimates;
@@ -18,15 +16,29 @@ public class GameController {
     }
 
     public void roll() {
+//        if (getCurrentPlayer().needToSkip()) {
+//            getCurrentPlayer().skip();
+//            cursorForCurrentPlayer = (cursorForCurrentPlayer + 1) % players.size();
+//        }
         int roll = dice.roll();
         int newPos = (getCurrentPlayer().getPosition() + roll) % realEstimates.size();
         for (int i = 1; i <= roll; i++) {
             int i1 = (getCurrentPlayer().getPosition() + i) % realEstimates.size();
-            if (realEstimates.get(i1).getEquipment() != null
-                    && realEstimates.get(i1).getEquipment().getType().equals(BLOCK)) {
-                newPos = i1;
+            Equipment equipment = realEstimates.get(i1).getEquipment();
+            if (equipment != null) {
+                newPos = equipment.act(getCurrentPlayer(), realEstimates, i1);
                 break;
             }
+//            if (equipment != null
+//                    && equipment.getType().equals(BLOCK)) {
+//                newPos = i1;
+//                break;
+//            }
+//            if (equipment != null
+//                    && equipment.getType().equals(BOMB)) {
+//                newPos = equipment.act(getCurrentPlayer(), realEstimates.get(i1))
+//                break;
+//            }
         }
         Player owner = realEstimates.get(newPos).getOwner();
         if (owner != null && !owner.equals(getCurrentPlayer())) {
@@ -41,6 +53,11 @@ public class GameController {
         }
         getCurrentPlayer().moveTo(newPos);
         cursorForCurrentPlayer = (cursorForCurrentPlayer + 1) % players.size();
+
+        if (getCurrentPlayer().needToSkip()) {
+            getCurrentPlayer().skip();
+            cursorForCurrentPlayer = (cursorForCurrentPlayer + 1) % players.size();
+        }
     }
 
     public Player getCurrentPlayer() {
