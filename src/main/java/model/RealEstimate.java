@@ -3,12 +3,14 @@ package model;
 public class RealEstimate {
     private Equipment equipment;
     private int basePrice;
-    private final EstimateType type;
+    private EstimateType type;
     private Player owner;
+    private int totalPrice;
 
     public RealEstimate(int basePrice) {
         this.type = EstimateType.VaccantLand;
         this.basePrice = basePrice;
+        this.totalPrice = basePrice;
     }
 
     public RealEstimate() {
@@ -18,6 +20,12 @@ public class RealEstimate {
     public RealEstimate(int basePrice, Player owner) {
         this(basePrice);
         this.owner = owner;
+    }
+
+    public RealEstimate(int basePrice, Player owner, EstimateType type, int totalPrice) {
+        this(basePrice, owner);
+        this.type = type;
+        this.totalPrice = totalPrice;
     }
 
     public void putBlock() {
@@ -42,5 +50,14 @@ public class RealEstimate {
 
     public void belongTo(Player player) {
         this.owner = player;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void upgradeTo(EstimateType type) {
+        this.totalPrice += basePrice;
+        this.type = type;
     }
 }

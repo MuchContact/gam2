@@ -1,5 +1,5 @@
 package model;
 
 public enum EstimateType {
-    VaccantLand
+    L2, L3, L4, VaccantLand
 }

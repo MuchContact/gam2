@@ -44,4 +44,11 @@ public class GameController {
             getCurrentPlayer().buy(realEstimate);
         }
     }
+
+    public void upgrade() {
+        RealEstimate realEstimate = realEstimates.get(getCurrentPlayer().getPosition());
+        if (realEstimate.getOwner().equals(getCurrentPlayer())){
+            getCurrentPlayer().upgrade(realEstimate);
+        }
+    }
 }
