@@ -26,7 +26,17 @@ public class Player {
     }
 
     public void buy(RealEstimate realEstimate) {
-        money-=realEstimate.getBasePrice();
+        money -= realEstimate.getBasePrice();
         realEstimate.belongTo(this);
+    }
+
+    public void payForRent(Player owner, RealEstimate realEstimate) {
+        int rent = realEstimate.getBasePrice() / 2;
+        money -= rent;
+        owner.ownRent(rent);
+    }
+
+    private void ownRent(int rent) {
+        money += rent;
     }
 }

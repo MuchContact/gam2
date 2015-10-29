@@ -15,6 +15,11 @@ public class RealEstimate {
         this(0);
     }
 
+    public RealEstimate(int basePrice, Player owner) {
+        this(basePrice);
+        this.owner = owner;
+    }
+
     public void putBlock() {
         equipment = new Equipment(Equipment.EquipmentType.BLOCK);
     }

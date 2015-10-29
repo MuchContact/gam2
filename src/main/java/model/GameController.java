@@ -27,7 +27,10 @@ public class GameController {
                 break;
             }
         }
-
+        Player owner = realEstimates.get(newPos).getOwner();
+        if(owner !=null && !owner.equals(getCurrentPlayer())){
+            getCurrentPlayer().payForRent(owner, realEstimates.get(newPos));
+        }
         getCurrentPlayer().moveTo(newPos);
     }
 
