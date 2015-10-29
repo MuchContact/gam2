@@ -21,14 +21,14 @@ public class GameController {
         int newPos = (getCurrentPlayer().getPosition() + roll) % realEstimates.size();
         for (int i = 1; i <= roll; i++) {
             int i1 = (getCurrentPlayer().getPosition() + i) % realEstimates.size();
-            if(realEstimates.get(i1).getEquipment()!=null
-                    &&realEstimates.get(i1).getEquipment().getType().equals(BLOCK)){
+            if (realEstimates.get(i1).getEquipment() != null
+                    && realEstimates.get(i1).getEquipment().getType().equals(BLOCK)) {
                 newPos = i1;
                 break;
             }
         }
         Player owner = realEstimates.get(newPos).getOwner();
-        if(owner !=null && !owner.equals(getCurrentPlayer())){
+        if (owner != null && !owner.equals(getCurrentPlayer())) {
             getCurrentPlayer().payForRent(owner, realEstimates.get(newPos));
         }
         getCurrentPlayer().moveTo(newPos);
@@ -40,14 +40,20 @@ public class GameController {
 
     public void buy() {
         RealEstimate realEstimate = realEstimates.get(getCurrentPlayer().getPosition());
-        if(realEstimate.getType().equals(EstimateType.VaccantLand)&&realEstimate.getOwner()==null){
+        if (realEstimate.getType().equals(EstimateType.VaccantLand) && realEstimate.getOwner() == null) {
             getCurrentPlayer().buy(realEstimate);
+        }
+        if (getCurrentPlayer().isBroken()) {
+            realEstimates.stream()
+                    .filter(realEstimate1 -> realEstimate1.getOwner() != null
+                            && realEstimate1.getOwner().equals(getCurrentPlayer()))
+                    .forEach(RealEstimate::reset);
         }
     }
 
     public void upgrade() {
         RealEstimate realEstimate = realEstimates.get(getCurrentPlayer().getPosition());
-        if (realEstimate.getOwner().equals(getCurrentPlayer())){
+        if (realEstimate.getOwner().equals(getCurrentPlayer())) {
             getCurrentPlayer().upgrade(realEstimate);
         }
     }

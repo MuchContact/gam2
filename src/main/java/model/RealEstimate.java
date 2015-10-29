@@ -60,4 +60,10 @@ public class RealEstimate {
         this.totalPrice += basePrice;
         this.type = type;
     }
+
+    public void reset() {
+        totalPrice = basePrice;
+        type = EstimateType.VaccantLand;
+        owner = null;
+    }
 }

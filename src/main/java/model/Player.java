@@ -49,15 +49,19 @@ public class Player {
 
     public void upgrade(RealEstimate realEstimate) {
         EstimateType type = realEstimate.getType();
-        if (type.equals(VaccantLand)){
+        if (type.equals(VaccantLand)) {
             money -= realEstimate.getBasePrice();
             realEstimate.upgradeTo(L2);
-        }else if(type.equals(L2)){
+        } else if (type.equals(L2)) {
             money -= realEstimate.getBasePrice();
             realEstimate.upgradeTo(L3);
-        }else if(type.equals(L3)){
+        } else if (type.equals(L3)) {
             money -= realEstimate.getBasePrice();
             realEstimate.upgradeTo(L4);
         }
+    }
+
+    public boolean isBroken() {
+        return money < 0;
     }
 }
